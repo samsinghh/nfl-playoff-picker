@@ -202,12 +202,6 @@ export function BracketView() {
   return (
     <div id="bracket-container" className="w-full bg-[#0a0a0a] border border-gray-800">
       <div className="w-full mx-auto p-4 lg:p-6 max-w-[1920px]">
-        <div className="flex items-center justify-between mb-8 border-b-2 border-gray-800 pb-2">
-          <div className="flex items-center gap-3">
-            <h2 className="text-2xl lg:text-3xl font-black text-white uppercase italic tracking-tight">NFL PLAYOFFS</h2>
-          </div>
-        </div>
-
         <div className="flex flex-col xl:flex-row gap-4 xl:gap-6 items-start justify-center">
           {/* AFC Bracket */}
           <div className="w-full xl:flex-1 xl:max-w-[500px]">
