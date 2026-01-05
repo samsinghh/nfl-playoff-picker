@@ -29,14 +29,6 @@ Each conference (AFC and NFC) has 7 seeds:
 
 After each round, teams are reseeded based on their original seed numbers. The lowest remaining seed (highest seed number) plays the highest remaining seed (lowest seed number).
 
-## Tech Stack
-
-- **Next.js 16** with App Router
-- **TypeScript**
-- **Tailwind CSS**
-- **React Context** for state management
-- **localStorage** for persistence
-
 ## Getting Started
 
 1. Install dependencies:
@@ -50,43 +42,3 @@ npm run dev
 ```
 
 3. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-## Usage
-
-1. **Enter Seeds**: Fill in team names for seeds 1-7 in both AFC and NFC columns
-2. **Generate Bracket**: Click "Generate Bracket" to create the initial bracket
-3. **Make Picks**: Click on teams to pick winners for each game
-4. **Advance Rounds**: As you pick winners, the next round games are automatically generated with proper reseeding
-5. **Save/Export**: Your picks are automatically saved to localStorage. Use "Export JSON" to save a backup
-6. **Import**: Use "Import JSON" to restore a previously saved bracket
-
-## Project Structure
-
-```
-├── app/
-│   ├── layout.tsx       # Root layout with BracketProvider
-│   ├── page.tsx         # Main page component
-│   └── globals.css      # Global styles
-├── components/
-│   ├── SeedEntry.tsx    # Seed input form
-│   ├── BracketView.tsx  # Bracket display component
-│   └── Controls.tsx     # Control buttons (reset, export, etc.)
-├── context/
-│   └── BracketContext.tsx # State management context
-├── lib/
-│   └── bracket.ts       # Pure bracket logic functions
-└── types.ts             # TypeScript type definitions
-```
-
-## Key Functions
-
-- `generateBracket(teams)`: Creates initial bracket with Wild Card games
-- `makeWildCardGames(teams, conf)`: Generates Wild Card matchups
-- `computeDivisionalGames(state, conf)`: Computes Divisional round with reseeding
-- `computeConferenceChampionship(state, conf)`: Computes Conference Championship
-- `computeSuperBowl(state)`: Computes Super Bowl matchup
-- `setGameWinner(state, gameId, winnerId)`: Sets winner and recomputes downstream games
-
-## License
-
-MIT
