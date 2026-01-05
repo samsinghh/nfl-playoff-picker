@@ -127,7 +127,7 @@ function ConferenceBracketSide({
         </h3>
       </div>
       
-      <div className="flex flex-row gap-2 lg:gap-4 items-start justify-center px-2 mt-4">
+      <div className="flex flex-row gap-2 lg:gap-4 items-stretch justify-center px-2 mt-4 min-h-[450px]">
         {displayRounds.map((round, idx) => {
           const isWC = round.label === roundLabels.WC;
           const isDIV = round.label === roundLabels.DIV;
@@ -136,7 +136,7 @@ function ConferenceBracketSide({
           return (
             <div 
               key={idx} 
-              className="flex flex-col items-center flex-1 min-w-0"
+              className="flex flex-col flex-1 min-w-0"
             >
               <div className="w-full border-b border-gray-200 pb-1 mb-4">
                 <h4 className={`text-[10px] font-black text-gray-500 text-center uppercase tracking-tighter leading-none`}>
@@ -144,13 +144,13 @@ function ConferenceBracketSide({
                 </h4>
               </div>
               {round.games.length === 0 ? (
-                <div className="h-32 flex items-center justify-center px-2">
+                <div className="flex-1 flex items-center justify-center px-2">
                   <p className="text-[10px] font-bold text-gray-300 uppercase text-center leading-tight italic">
                     Waiting for {isDIV ? "Wild Card" : isCONF ? "Divisional" : "Seeds"}
                   </p>
                 </div>
               ) : (
-                <div className={`flex flex-col items-center w-full gap-4 lg:gap-6 ${isDIV ? 'mt-8 lg:mt-12' : isCONF ? 'mt-16 lg:mt-24' : ''}`}>
+                <div className="flex flex-col justify-center items-center w-full gap-4 lg:gap-6 flex-1">
                   {isWC && round.seed1 && (
                     <div className="bg-gray-50 border border-gray-200 rounded-sm p-2 w-full flex items-center gap-2 mb-2">
                       <div className="w-6 h-6 flex items-center justify-center bg-white rounded-full p-1 border border-gray-100">
