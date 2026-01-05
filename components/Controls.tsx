@@ -44,7 +44,7 @@ export function Controls() {
 
       // Use html-to-image which handles modern CSS better
       const dataUrl = await toPng(bracketElement, {
-        backgroundColor: "#f9fafb",
+        backgroundColor: "#0a0a0a",
         pixelRatio: 2,
         quality: 1,
       });
@@ -85,24 +85,24 @@ export function Controls() {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6">
-      <div className="flex flex-wrap gap-4 justify-center bg-white border border-gray-200 rounded-sm p-4 shadow-sm">
+      <div className="flex flex-wrap gap-4 justify-center bg-[#1a1a1a] border border-gray-800 rounded-sm p-4 shadow-2xl">
         <button
           onClick={resetPicks}
-          className="px-4 py-2 bg-white text-gray-900 border border-gray-300 font-bold uppercase italic text-xs tracking-wider hover:bg-gray-50 transition-colors"
+          className="px-4 py-2 bg-[#2a2a2a] text-white border border-gray-700 font-bold uppercase italic text-xs tracking-wider hover:bg-[#333333] transition-colors"
         >
           Reset Picks
         </button>
 
         <button
           onClick={handleExport}
-          className="px-4 py-2 bg-white text-gray-900 border border-gray-300 font-bold uppercase italic text-xs tracking-wider hover:bg-gray-50 transition-colors"
+          className="px-4 py-2 bg-[#2a2a2a] text-white border border-gray-700 font-bold uppercase italic text-xs tracking-wider hover:bg-[#333333] transition-colors"
         >
           Export JSON
         </button>
 
         <button
           onClick={() => setShowImport(!showImport)}
-          className="px-4 py-2 bg-white text-gray-900 border border-gray-300 font-bold uppercase italic text-xs tracking-wider hover:bg-gray-50 transition-colors"
+          className="px-4 py-2 bg-[#2a2a2a] text-white border border-gray-700 font-bold uppercase italic text-xs tracking-wider hover:bg-[#333333] transition-colors"
         >
           Import JSON
         </button>
@@ -116,14 +116,14 @@ export function Controls() {
               setState(null);
             }
           }}
-          className="px-4 py-2 bg-gray-900 text-white font-bold uppercase italic text-xs tracking-wider hover:bg-black transition-colors"
+          className="px-4 py-2 bg-gray-800 text-white font-bold uppercase italic text-xs tracking-wider hover:bg-black transition-colors border border-gray-700"
         >
           Reset Bracket
         </button>
 
         <button
           onClick={handleShare}
-          className="px-4 py-2 bg-red-600 text-white font-bold uppercase italic text-xs tracking-wider hover:bg-red-700 shadow-md transition-colors"
+          className="px-4 py-2 bg-red-600 text-white font-bold uppercase italic text-xs tracking-wider hover:bg-red-700 shadow-lg transition-colors border border-red-700"
         >
           Share Bracket
         </button>

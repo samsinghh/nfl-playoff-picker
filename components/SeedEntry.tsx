@@ -128,21 +128,21 @@ export function SeedEntry() {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto p-6 bg-white border border-gray-200 shadow-lg rounded-sm mt-8">
-      <div className="flex items-center gap-3 mb-8 border-b-2 border-gray-900 pb-2">
-        <h2 className="text-2xl font-black text-gray-900 uppercase italic tracking-tight">SEED ENTRY</h2>
+    <div className="w-full max-w-5xl mx-auto p-6 bg-[#1a1a1a] border border-gray-800 shadow-2xl rounded-sm mt-8">
+      <div className="flex items-center gap-3 mb-8 border-b-2 border-gray-800 pb-2">
+        <h2 className="text-2xl font-black text-white uppercase italic tracking-tight">SEED ENTRY</h2>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
         {/* AFC Column */}
         <div className="space-y-4 border-t-4 border-red-600 pt-4">
-          <h3 className="text-sm font-black text-red-600 italic tracking-wider mb-4">AFC SEEDS</h3>
+          <h3 className="text-sm font-black text-red-500 italic tracking-wider mb-4">AFC SEEDS</h3>
           {SEEDS.map((seed) => {
             const selected = getSelectedTeam("AFC", seed);
             const available = getAvailableTeams("AFC", seed);
             return (
               <div key={seed} className="flex items-center gap-3 group">
-                <div className="w-8 h-8 flex items-center justify-center bg-gray-900 text-white font-black italic rounded-sm text-xs group-hover:bg-red-600 transition-colors">
+                <div className="w-8 h-8 flex items-center justify-center bg-[#2a2a2a] text-gray-400 font-black italic rounded-sm text-xs group-hover:bg-red-600 group-hover:text-white transition-colors">
                   #{seed}
                 </div>
                 <div className="flex-1 relative">
@@ -158,16 +158,16 @@ export function SeedEntry() {
                   <select
                     value={afcTeams[seed]}
                     onChange={(e) => handleTeamChange("AFC", seed, e.target.value)}
-                    className={`w-full ${afcTeams[seed] ? 'pl-11' : 'pl-3'} pr-3 py-2 bg-gray-50 border border-gray-200 rounded-sm font-bold uppercase italic text-xs tracking-tight text-gray-900 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 transition-all`}
+                    className={`w-full ${afcTeams[seed] ? 'pl-11' : 'pl-3'} pr-3 py-2 bg-[#2a2a2a] border border-gray-700 rounded-sm font-bold uppercase italic text-xs tracking-tight text-white focus:outline-none focus:border-red-600 transition-all`}
                   >
-                    <option value="">Select AFC Team...</option>
+                    <option value="" className="bg-[#1a1a1a]">Select AFC Team...</option>
                     {available.map((team) => (
-                      <option key={team.id} value={team.id}>
+                      <option key={team.id} value={team.id} className="bg-[#1a1a1a]">
                         {team.name}
                       </option>
                     ))}
                     {selected && (
-                      <option value={selected.id}>{selected.name}</option>
+                      <option value={selected.id} className="bg-[#1a1a1a]">{selected.name}</option>
                     )}
                   </select>
                 </div>
@@ -178,13 +178,13 @@ export function SeedEntry() {
 
         {/* NFC Column */}
         <div className="space-y-4 border-t-4 border-blue-700 pt-4">
-          <h3 className="text-sm font-black text-blue-700 italic tracking-wider mb-4">NFC SEEDS</h3>
+          <h3 className="text-sm font-black text-blue-500 italic tracking-wider mb-4">NFC SEEDS</h3>
           {SEEDS.map((seed) => {
             const selected = getSelectedTeam("NFC", seed);
             const available = getAvailableTeams("NFC", seed);
             return (
               <div key={seed} className="flex items-center gap-3 group">
-                <div className="w-8 h-8 flex items-center justify-center bg-gray-900 text-white font-black italic rounded-sm text-xs group-hover:bg-blue-700 transition-colors">
+                <div className="w-8 h-8 flex items-center justify-center bg-[#2a2a2a] text-gray-400 font-black italic rounded-sm text-xs group-hover:bg-blue-700 group-hover:text-white transition-colors">
                   #{seed}
                 </div>
                 <div className="flex-1 relative">
@@ -200,16 +200,16 @@ export function SeedEntry() {
                   <select
                     value={nfcTeams[seed]}
                     onChange={(e) => handleTeamChange("NFC", seed, e.target.value)}
-                    className={`w-full ${nfcTeams[seed] ? 'pl-11' : 'pl-3'} pr-3 py-2 bg-gray-50 border border-gray-200 rounded-sm font-bold uppercase italic text-xs tracking-tight text-gray-900 focus:outline-none focus:border-blue-700 focus:ring-1 focus:ring-blue-700 transition-all`}
+                    className={`w-full ${nfcTeams[seed] ? 'pl-11' : 'pl-3'} pr-3 py-2 bg-[#2a2a2a] border border-gray-700 rounded-sm font-bold uppercase italic text-xs tracking-tight text-white focus:outline-none focus:border-blue-700 transition-all`}
                   >
-                    <option value="">Select NFC Team...</option>
+                    <option value="" className="bg-[#1a1a1a]">Select NFC Team...</option>
                     {available.map((team) => (
-                      <option key={team.id} value={team.id}>
+                      <option key={team.id} value={team.id} className="bg-[#1a1a1a]">
                         {team.name}
                       </option>
                     ))}
                     {selected && (
-                      <option value={selected.id}>{selected.name}</option>
+                      <option value={selected.id} className="bg-[#1a1a1a]">{selected.name}</option>
                     )}
                   </select>
                 </div>
@@ -222,7 +222,7 @@ export function SeedEntry() {
       <div className="mt-12 flex flex-col items-center gap-4">
         <button
           onClick={handleLoad2025Seeds}
-          className="w-full max-w-xs px-6 py-3 bg-white text-gray-900 border-2 border-gray-900 font-black uppercase italic tracking-widest text-xs hover:bg-gray-900 hover:text-white transition-all transform hover:-translate-y-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-y-0"
+          className="w-full max-w-xs px-6 py-3 bg-[#2a2a2a] text-white border-2 border-gray-700 font-black uppercase italic tracking-widest text-xs hover:bg-white hover:text-black transition-all transform hover:-translate-y-1 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)] active:shadow-none active:translate-y-0"
         >
           Use 2025 NFL Seeds
         </button>
