@@ -85,24 +85,24 @@ export function Controls() {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6">
-      <div className="flex flex-wrap gap-4 justify-center">
+      <div className="flex flex-wrap gap-4 justify-center bg-white border border-gray-200 rounded-sm p-4 shadow-sm">
         <button
           onClick={resetPicks}
-          className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+          className="px-4 py-2 bg-white text-gray-900 border border-gray-300 font-bold uppercase italic text-xs tracking-wider hover:bg-gray-50 transition-colors"
         >
           Reset Picks
         </button>
 
         <button
           onClick={handleExport}
-          className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+          className="px-4 py-2 bg-white text-gray-900 border border-gray-300 font-bold uppercase italic text-xs tracking-wider hover:bg-gray-50 transition-colors"
         >
           Export JSON
         </button>
 
         <button
           onClick={() => setShowImport(!showImport)}
-          className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+          className="px-4 py-2 bg-white text-gray-900 border border-gray-300 font-bold uppercase italic text-xs tracking-wider hover:bg-gray-50 transition-colors"
         >
           Import JSON
         </button>
@@ -116,14 +116,14 @@ export function Controls() {
               setState(null);
             }
           }}
-          className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+          className="px-4 py-2 bg-gray-900 text-white font-bold uppercase italic text-xs tracking-wider hover:bg-black transition-colors"
         >
           Reset Bracket
         </button>
 
         <button
           onClick={handleShare}
-          className="px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors"
+          className="px-4 py-2 bg-red-600 text-white font-bold uppercase italic text-xs tracking-wider hover:bg-red-700 shadow-md transition-colors"
         >
           Share Bracket
         </button>

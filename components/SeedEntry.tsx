@@ -128,96 +128,110 @@ export function SeedEntry() {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-6 text-center text-black">Enter Playoff Seeds</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className="w-full max-w-5xl mx-auto p-6 bg-white border border-gray-200 shadow-lg rounded-sm mt-8">
+      <div className="flex items-center gap-3 mb-8 border-b-2 border-gray-900 pb-2">
+        <h2 className="text-2xl font-black text-gray-900 uppercase italic tracking-tight">SEED ENTRY</h2>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
         {/* AFC Column */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold text-red-600 mb-4">AFC</h3>
+        <div className="space-y-4 border-t-4 border-red-600 pt-4">
+          <h3 className="text-sm font-black text-red-600 italic tracking-wider mb-4">AFC SEEDS</h3>
           {SEEDS.map((seed) => {
             const selected = getSelectedTeam("AFC", seed);
             const available = getAvailableTeams("AFC", seed);
             return (
-              <div key={seed} className="flex items-center gap-3">
-                <label className="w-16 text-sm font-medium text-black">Seed {seed}</label>
-                <select
-                  value={afcTeams[seed]}
-                  onChange={(e) => handleTeamChange("AFC", seed, e.target.value)}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
-                >
-                  <option value="">Select team...</option>
-                  {available.map((team) => (
-                    <option key={team.id} value={team.id}>
-                      {team.name}
-                    </option>
-                  ))}
-                  {selected && (
-                    <option value={selected.id}>{selected.name}</option>
-                  )}
-                </select>
-                {selected && (
-                  <img
-                    src={selected.logoUrl}
-                    alt={selected.name}
-                    className="w-8 h-8 object-contain"
-                  />
-                )}
+              <div key={seed} className="flex items-center gap-3 group">
+                <div className="w-8 h-8 flex items-center justify-center bg-gray-900 text-white font-black italic rounded-sm text-xs group-hover:bg-red-600 transition-colors">
+                  #{seed}
+                </div>
+                <div className="flex-1 relative">
+                  <div className="absolute left-3 top-1/2 -translate-y-1/2 w-6 h-6 pointer-events-none">
+                    {selected && (
+                      <img
+                        src={selected.logoUrl}
+                        alt=""
+                        className="w-full h-full object-contain"
+                      />
+                    )}
+                  </div>
+                  <select
+                    value={afcTeams[seed]}
+                    onChange={(e) => handleTeamChange("AFC", seed, e.target.value)}
+                    className={`w-full ${afcTeams[seed] ? 'pl-11' : 'pl-3'} pr-3 py-2 bg-gray-50 border border-gray-200 rounded-sm font-bold uppercase italic text-xs tracking-tight text-gray-900 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 transition-all`}
+                  >
+                    <option value="">Select AFC Team...</option>
+                    {available.map((team) => (
+                      <option key={team.id} value={team.id}>
+                        {team.name}
+                      </option>
+                    ))}
+                    {selected && (
+                      <option value={selected.id}>{selected.name}</option>
+                    )}
+                  </select>
+                </div>
               </div>
             );
           })}
         </div>
 
         {/* NFC Column */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold text-blue-600 mb-4">NFC</h3>
+        <div className="space-y-4 border-t-4 border-blue-700 pt-4">
+          <h3 className="text-sm font-black text-blue-700 italic tracking-wider mb-4">NFC SEEDS</h3>
           {SEEDS.map((seed) => {
             const selected = getSelectedTeam("NFC", seed);
             const available = getAvailableTeams("NFC", seed);
             return (
-              <div key={seed} className="flex items-center gap-3">
-                <label className="w-16 text-sm font-medium text-black">Seed {seed}</label>
-                <select
-                  value={nfcTeams[seed]}
-                  onChange={(e) => handleTeamChange("NFC", seed, e.target.value)}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
-                >
-                  <option value="">Select team...</option>
-                  {available.map((team) => (
-                    <option key={team.id} value={team.id}>
-                      {team.name}
-                    </option>
-                  ))}
-                  {selected && (
-                    <option value={selected.id}>{selected.name}</option>
-                  )}
-                </select>
-                {selected && (
-                  <img
-                    src={selected.logoUrl}
-                    alt={selected.name}
-                    className="w-8 h-8 object-contain"
-                  />
-                )}
+              <div key={seed} className="flex items-center gap-3 group">
+                <div className="w-8 h-8 flex items-center justify-center bg-gray-900 text-white font-black italic rounded-sm text-xs group-hover:bg-blue-700 transition-colors">
+                  #{seed}
+                </div>
+                <div className="flex-1 relative">
+                  <div className="absolute left-3 top-1/2 -translate-y-1/2 w-6 h-6 pointer-events-none">
+                    {selected && (
+                      <img
+                        src={selected.logoUrl}
+                        alt=""
+                        className="w-full h-full object-contain"
+                      />
+                    )}
+                  </div>
+                  <select
+                    value={nfcTeams[seed]}
+                    onChange={(e) => handleTeamChange("NFC", seed, e.target.value)}
+                    className={`w-full ${nfcTeams[seed] ? 'pl-11' : 'pl-3'} pr-3 py-2 bg-gray-50 border border-gray-200 rounded-sm font-bold uppercase italic text-xs tracking-tight text-gray-900 focus:outline-none focus:border-blue-700 focus:ring-1 focus:ring-blue-700 transition-all`}
+                  >
+                    <option value="">Select NFC Team...</option>
+                    {available.map((team) => (
+                      <option key={team.id} value={team.id}>
+                        {team.name}
+                      </option>
+                    ))}
+                    {selected && (
+                      <option value={selected.id}>{selected.name}</option>
+                    )}
+                  </select>
+                </div>
               </div>
             );
           })}
         </div>
       </div>
-      <div className="mt-8 text-center space-y-4">
+
+      <div className="mt-12 flex flex-col items-center gap-4">
         <button
           onClick={handleLoad2025Seeds}
-          className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors"
+          className="w-full max-w-xs px-6 py-3 bg-white text-gray-900 border-2 border-gray-900 font-black uppercase italic tracking-widest text-xs hover:bg-gray-900 hover:text-white transition-all transform hover:-translate-y-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-y-0"
         >
-          Use 2025 NFL Playoff Seeding
+          Use 2025 NFL Seeds
         </button>
-        <div>
-          <button
-            onClick={handleGenerate}
-            className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Generate Bracket
-          </button>
-        </div>
+        <button
+          onClick={handleGenerate}
+          className="w-full max-w-xs px-6 py-4 bg-red-600 text-white font-black uppercase italic tracking-[0.2em] text-sm hover:bg-red-700 transition-all transform hover:-translate-y-1 shadow-[4px_4px_0px_0px_rgba(153,0,0,1)] active:shadow-none active:translate-y-0"
+        >
+          Generate Bracket
+        </button>
       </div>
     </div>
   );
