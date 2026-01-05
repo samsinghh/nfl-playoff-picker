@@ -2,7 +2,7 @@
 
 A web app for creating and making predictions for NFL playoffs brackets. TEXANS SWARM
 
-<img width="2560" height="1376" alt="image" src="https://github.com/user-attachments/assets/848d79f1-55a1-4022-a27c-29c832777262" />
+<img width="2560" height="1220" alt="image" src="https://github.com/user-attachments/assets/6ea02756-50b7-4847-bdda-54309e2b3955" />
 
 ## Getting Started
 
