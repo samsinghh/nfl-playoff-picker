@@ -138,9 +138,9 @@ function ConferenceBracketSide({
               key={idx} 
               className="flex flex-col flex-1 min-w-0"
             >
-              <div className="w-full border-b border-gray-800 pb-1 mb-4">
-                <h4 className={`text-[10px] font-black text-gray-500 text-center uppercase tracking-tighter leading-none`}>
-                  {round.label}
+              <div className="w-full border-b border-gray-800 pb-1 mb-4 h-8 flex items-end justify-center">
+                <h4 className={`text-[10px] font-black text-gray-500 text-center uppercase tracking-tighter leading-[1.1] whitespace-pre-line`}>
+                  {round.label === roundLabels.CONF ? 'Conference\nChampionship' : round.label}
                 </h4>
               </div>
               {round.games.length === 0 ? (
