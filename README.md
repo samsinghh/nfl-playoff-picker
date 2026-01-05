@@ -2,17 +2,7 @@
 
 A web application for creating and managing NFL playoffs brackets with automatic reseeding and bracket generation.
 
-## Features
-
-- **Seed Entry**: Enter 7 seeds for both AFC and NFC conferences
-- **Automatic Bracket Generation**: Wild Card matchups are automatically generated (2v7, 3v6, 4v5)
-- **Interactive Picks**: Click teams to pick winners for each game
-- **Automatic Advancement**: Teams automatically advance with proper reseeding after each round
-- **Full Bracket View**: See complete bracket including Wild Card, Divisional, Conference Championship, and Super Bowl
-- **Local Storage**: Your picks are automatically saved and restored on page reload
-- **Export/Import**: Export your bracket as JSON or import a previously saved bracket
-- **Randomize Picks**: Quickly fill out the bracket with random picks for testing
-- **Reset Options**: Reset picks or reset the entire bracket
+<img width="2544" height="1558" alt="image" src="https://github.com/user-attachments/assets/43451ed3-f714-4673-905d-2487b7d4f5c6" />
 
 ## How It Works
 
