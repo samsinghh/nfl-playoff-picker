@@ -179,7 +179,7 @@ export function BracketView() {
   const nfcSeed1 = state.teams.find((t) => t.conference === "NFC" && t.seed === 1);
 
   return (
-    <div className="w-full overflow-x-auto">
+    <div id="bracket-container" className="w-full overflow-x-auto">
       <div className="min-w-full max-w-full mx-auto p-4 lg:p-6">
         <h2 className="text-2xl lg:text-3xl font-bold text-center mb-6 lg:mb-8 text-black">NFL Playoff Bracket</h2>
 

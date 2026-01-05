@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { toPng } from "html-to-image";
 import { useBracket } from "@/context/BracketContext";
 
 export function Controls() {
-  const { state, setState, resetPicks, randomizePicks, exportBracket, importBracket } =
+  const { state, setState, resetPicks, exportBracket, importBracket } =
     useBracket();
   const [showImport, setShowImport] = useState(false);
   const [importText, setImportText] = useState("");
@@ -33,6 +34,51 @@ export function Controls() {
     }
   };
 
+  const handleShare = async () => {
+    try {
+      const bracketElement = document.getElementById("bracket-container");
+      if (!bracketElement) {
+        alert("Could not find bracket to share");
+        return;
+      }
+
+      // Use html-to-image which handles modern CSS better
+      const dataUrl = await toPng(bracketElement, {
+        backgroundColor: "#f9fafb",
+        pixelRatio: 2,
+        quality: 1,
+      });
+
+      // Convert data URL to blob
+      const response = await fetch(dataUrl);
+      const blob = await response.blob();
+
+      try {
+        // Copy to clipboard
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            "image/png": blob,
+          }),
+        ]);
+        alert("Bracket image copied to clipboard! You can paste it anywhere.");
+      } catch (err) {
+        // Fallback: download the image
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "nfl-bracket.png";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        alert("Bracket image downloaded! Clipboard access not available in this browser.");
+      }
+    } catch (error) {
+      console.error("Error sharing bracket:", error);
+      alert("Failed to share bracket. Please try again.");
+    }
+  };
+
   if (!state) {
     return null;
   }
@@ -45,13 +91,6 @@ export function Controls() {
           className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
         >
           Reset Picks
-        </button>
-
-        <button
-          onClick={randomizePicks}
-          className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          Randomize Picks
         </button>
 
         <button
@@ -80,6 +119,13 @@ export function Controls() {
           className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
         >
           Reset Bracket
+        </button>
+
+        <button
+          onClick={handleShare}
+          className="px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors"
+        >
+          Share Bracket
         </button>
       </div>
 
