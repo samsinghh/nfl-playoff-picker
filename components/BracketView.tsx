@@ -229,12 +229,9 @@ export function BracketView() {
                   ))}
                   {sbWinner && (
                     <div className="mt-6 p-4 bg-[#2a2a2a] rounded-sm relative overflow-hidden group transition-all duration-500 border border-gray-700">
-                      {/* Diagonal accent */}
-                      <div className="absolute top-0 right-0 w-16 h-full bg-red-600 transform translate-x-8 -skew-x-12 opacity-30"></div>
-                      
-                      <div className="relative z-10 flex flex-col items-center gap-3">
+                      <div className="relative z-10 flex flex-col items-center gap-3 text-center">
                         <span className="text-[10px] font-black text-red-500 uppercase tracking-[0.2em] italic">WORLD CHAMPION</span>
-                        <div className="flex flex-col items-center gap-2">
+                        <div className="flex flex-col items-center gap-2 w-full">
                           <div className="w-16 h-16 bg-white rounded-full p-2 shadow-2xl border-2 border-red-600 scale-110">
                             {sbWinner.logoUrl && (
                               <img
@@ -244,7 +241,7 @@ export function BracketView() {
                               />
                             )}
                           </div>
-                          <span className="text-xl lg:text-2xl font-black text-white uppercase italic tracking-tighter mt-2">
+                          <span className="w-full text-center text-xl lg:text-2xl font-black text-white uppercase italic tracking-tighter mt-2">
                             {sbWinner.name}
                           </span>
                         </div>
