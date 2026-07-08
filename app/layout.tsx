@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "NFL Playoffs Bracket",
   description: "Create and manage your NFL playoffs bracket",
+  icons: {
+    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'/>",
+  },
 };
 
 export default function RootLayout({
