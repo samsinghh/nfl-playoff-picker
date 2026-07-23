@@ -11,8 +11,6 @@ interface BracketContextType {
   pickWinner: (gameId: string, winnerId: string) => void;
   resetPicks: () => void;
   randomizePicks: () => void;
-  exportBracket: () => string;
-  importBracket: (json: string) => void;
 }
 
 const BracketContext = createContext<BracketContextType | undefined>(undefined);
@@ -103,21 +101,6 @@ export function BracketProvider({ children }: { children: React.ReactNode }) {
     setState(currentState);
   }, [state]);
 
-  const exportBracket = useCallback(() => {
-    if (!state) return "";
-    return JSON.stringify(state, null, 2);
-  }, [state]);
-
-  const importBracket = useCallback((json: string) => {
-    try {
-      const parsed = JSON.parse(json);
-      setState(parsed);
-    } catch (error) {
-      console.error("Failed to import bracket:", error);
-      throw new Error("Invalid JSON format");
-    }
-  }, []);
-
   return (
     <BracketContext.Provider
       value={{
@@ -127,8 +110,6 @@ export function BracketProvider({ children }: { children: React.ReactNode }) {
         pickWinner,
         resetPicks,
         randomizePicks,
-        exportBracket,
-        importBracket,
       }}
     >
       {children}

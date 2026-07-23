@@ -1,49 +1,21 @@
 "use client";
 
-import { useState } from "react";
 import { toPng } from "html-to-image";
 import { useBracket } from "@/context/BracketContext";
 
 export function Controls() {
-  const { state, setState, resetPicks, randomizePicks, exportBracket, importBracket } =
-    useBracket();
-  const [showImport, setShowImport] = useState(false);
-  const [importText, setImportText] = useState("");
-
-  const handleExport = () => {
-    const json = exportBracket();
-    const blob = new Blob([json], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "nfl-bracket.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
-  const handleImport = () => {
-    try {
-      importBracket(importText);
-      setShowImport(false);
-      setImportText("");
-      alert("Bracket imported successfully!");
-    } catch {
-      alert("Failed to import bracket. Please check the JSON format.");
-    }
-  };
+  const { state, setState, resetPicks, randomizePicks } = useBracket();
 
   const handleShare = async () => {
     try {
-      const bracketElement = document.getElementById("bracket-container");
-      if (!bracketElement) {
+      const bracketField = document.querySelector<HTMLElement>(".reference-bracket-field");
+      if (!bracketField) {
         alert("Could not find bracket to share");
         return;
       }
 
-      // Use html-to-image which handles modern CSS better
-      const dataUrl = await toPng(bracketElement, {
+      // Capture the live field so its container-query dimensions are preserved.
+      const dataUrl = await toPng(bracketField, {
         backgroundColor: "#0a0a0a",
         pixelRatio: 2,
         quality: 1,
@@ -100,23 +72,6 @@ export function Controls() {
 
         <button
           type="button"
-          onClick={handleExport}
-          className="control-button"
-        >
-          Export JSON
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setShowImport(!showImport)}
-          className="control-button"
-          aria-expanded={showImport}
-        >
-          Import JSON
-        </button>
-
-        <button
-          type="button"
           onClick={() => {
             const confirmed = confirm(
               "Are you sure you want to reset the entire bracket? This will clear all teams and games."
@@ -139,36 +94,6 @@ export function Controls() {
         </button>
       </div>
 
-      {showImport && (
-        <div className="import-panel">
-          <label htmlFor="bracket-json">Paste bracket JSON</label>
-          <textarea
-            id="bracket-json"
-            value={importText}
-            onChange={(e) => setImportText(e.target.value)}
-            placeholder="Paste exported bracket data here"
-          />
-          <div className="import-actions">
-            <button
-              type="button"
-              onClick={handleImport}
-              className="button button--primary"
-            >
-              Import
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setShowImport(false);
-                setImportText("");
-              }}
-              className="button button--secondary"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
     </section>
   );
 }

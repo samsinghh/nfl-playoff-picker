@@ -79,11 +79,27 @@ export function BracketView() {
   const afcDivisional = gamesFor("AFC", "DIV");
   const nfcDivisional = gamesFor("NFC", "DIV");
   const superBowl = state.games.filter((game) => game.round === "SB");
+  const superBowlGame = superBowl[0];
+  const champion = superBowlGame?.winnerId
+    ? state.teams.find((team) => team.id === superBowlGame.winnerId)
+    : undefined;
 
   return (
     <section id="bracket-container" className="reference-bracket" aria-label="NFL playoff bracket">
       <div className="reference-bracket-scroll" tabIndex={0}>
         <div className="reference-bracket-field">
+          {champion && (
+            <div
+              className="champion-display"
+              style={{ "--champion-color": TEAM_COLORS[champion.abbreviation ?? ""] ?? "#fff" } as CSSProperties}
+              aria-live="polite"
+            >
+              <img src={champion.logoUrl} alt="" aria-hidden="true" />
+              <span>Champion</span>
+              <strong>{champion.name}</strong>
+            </div>
+          )}
+
           <div className="slot-column slot-column--afc-wild-card">
             <InteractiveGameSlots games={gamesFor("AFC", "WC")} expectedGames={3} onPickWinner={pickWinner} />
           </div>

@@ -26,45 +26,6 @@
 
 .controls-share { margin-left: 8px; }
 
-.import-panel {
-  width: min(100%, 680px);
-  margin: 12px 0 0 auto;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #0b0d10;
-  padding: 18px;
-}
-
-.import-panel label {
-  display: block;
-  margin-bottom: 9px;
-  color: var(--muted);
-  font-size: 0.75rem;
-  font-weight: 700;
-}
-
-.import-panel textarea {
-  width: 100%;
-  min-height: 150px;
-  resize: vertical;
-  border: 1px solid var(--line-strong);
-  border-radius: 6px;
-  background: var(--black);
-  color: var(--ink);
-  padding: 12px;
-  font-family: var(--font-geist-mono, monospace);
-  font-size: 0.75rem;
-}
-
-.import-panel textarea::placeholder { color: var(--muted); }
-
-.import-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 10px;
-}
-
 @media (max-width: 760px) {
   .controls {
     margin: 0;
@@ -97,6 +58,4 @@
     border-color: transparent;
     background: var(--ink);
   }
-
-  .import-panel { margin-top: 8px; }
 }

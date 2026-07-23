@@ -13,7 +13,7 @@
   --tile-width: min(11.1524cqw, 9.7879cqh);
   position: relative;
   container-type: size;
-  width: min(calc(100% - 128px), 640px);
+  width: min(calc(100% - 64px), 760px);
   margin-inline: auto;
 }
 
@@ -76,6 +76,43 @@
 .slot-column--super-bowl {
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.champion-display {
+  position: absolute;
+  z-index: 2;
+  top: 19%;
+  left: 50%;
+  display: flex;
+  width: min(calc(var(--tile-width) * 2.1), 200px);
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  padding: 0;
+  transform: translateX(-50%);
+  color: #fff;
+  text-align: center;
+}
+
+.champion-display img {
+  width: min(calc(var(--tile-width) * 0.9), 108px);
+  height: min(calc(var(--tile-width) * 0.9), 108px);
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgb(0 0 0 / 0.45));
+}
+
+.champion-display span {
+  color: #fff;
+  font-size: clamp(0.625rem, 1.15cqw, 0.75rem);
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.champion-display strong {
+  margin-top: 2px;
+  font-size: clamp(1rem, 1.6cqw, 1.125rem);
+  line-height: 1.05;
 }
 
 .bracket-tile {
