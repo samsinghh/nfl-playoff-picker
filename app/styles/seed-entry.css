@@ -1,0 +1,195 @@
+.season-label {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 0.625rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.seed-entry {
+  width: min(calc(100% - 32px), 640px);
+  margin: 16px auto;
+  border-block: 1px solid var(--line-strong);
+  background: var(--black);
+}
+
+.seed-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.seed-header .season-label { margin: 0; }
+
+.seed-header .button {
+  min-height: 38px;
+  flex: 0 0 auto;
+  border-radius: 2px;
+  padding-inline: 13px;
+  font-size: 0.6875rem;
+}
+
+.seed-conferences {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.seed-conference {
+  min-width: 0;
+  padding: 16px;
+}
+
+.seed-conference + .seed-conference {
+  border-left: 1px solid var(--line);
+}
+
+.seed-conference h2 {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-weight: 650;
+}
+
+.seed-conference h2 span {
+  margin-right: 4px;
+  font-size: 0.875rem;
+  font-weight: 850;
+}
+
+.seed-conference--afc h2 span { color: var(--afc); }
+.seed-conference--nfc h2 span { color: var(--nfc); }
+
+.seed-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 7px;
+}
+
+.seed-number {
+  display: inline-flex;
+  width: 28px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--muted);
+  font-family: var(--font-geist-mono, monospace);
+  font-size: 0.625rem;
+  font-weight: 750;
+}
+
+.seed-select-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  flex: 1;
+}
+
+.seed-select-wrap select {
+  width: 100%;
+  height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 0 28px 0 10px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+}
+
+.seed-select-wrap select:hover { border-color: var(--line-strong); }
+.seed-select-wrap select.has-logo { padding-left: 36px; }
+
+.seed-team-logo {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 8px;
+  width: 21px;
+  height: 21px;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.seed-team-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.seed-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--line);
+}
+
+.seed-footer p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.6875rem;
+}
+
+.seed-footer .button {
+  min-height: 40px;
+  border-radius: 2px;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 520px) {
+  .seed-entry {
+    width: 100%;
+    margin: 0;
+  }
+
+  .seed-header {
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+    padding: 16px 12px;
+  }
+
+  .seed-conference { padding: 12px 7px; }
+
+  .seed-conference h2 {
+    margin-left: 3px;
+    margin-bottom: 9px;
+  }
+
+  .seed-row { gap: 4px; }
+
+  .seed-number {
+    width: 24px;
+    height: 36px;
+  }
+
+  .seed-select-wrap select {
+    height: 36px;
+    padding-right: 20px;
+    font-size: 0.625rem;
+  }
+
+  .seed-select-wrap select.has-logo { padding-left: 31px; }
+
+  .seed-team-logo {
+    left: 6px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .seed-footer {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+  }
+}

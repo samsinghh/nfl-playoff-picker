@@ -1,0 +1,150 @@
+.reference-bracket,
+.reference-bracket-scroll,
+.reference-bracket-field {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  background: var(--black);
+}
+
+.reference-bracket-scroll { overflow: hidden; }
+
+.reference-bracket-field {
+  --tile-width: min(11.1524cqw, 9.7879cqh);
+  position: relative;
+  container-type: size;
+  width: min(calc(100% - 128px), 640px);
+  margin-inline: auto;
+}
+
+.slot-column {
+  position: absolute;
+  display: flex;
+  width: var(--tile-width);
+  flex-direction: column;
+}
+
+.slot-column--afc-wild-card,
+.slot-column--nfc-wild-card {
+  top: 2.5%;
+  bottom: 2.5%;
+  gap: 0.35cqw;
+}
+
+.slot-column--afc-wild-card { left: 8px; }
+.slot-column--nfc-wild-card { right: 8px; }
+
+.slot-column--afc-wild-card .bracket-tile:nth-child(2),
+.slot-column--nfc-wild-card .bracket-tile:nth-child(2),
+.slot-column--afc-wild-card .bracket-tile:nth-child(4),
+.slot-column--nfc-wild-card .bracket-tile:nth-child(4) {
+  margin-bottom: auto;
+}
+
+.slot-column--afc-divisional,
+.slot-column--nfc-divisional {
+  top: 12.5%;
+  bottom: 12.5%;
+  gap: 0.35cqw;
+}
+
+.slot-column--afc-divisional { left: 17.2862%; }
+.slot-column--nfc-divisional { right: 17.2862%; }
+
+.slot-column--afc-divisional .bracket-tile:nth-child(2),
+.slot-column--nfc-divisional .bracket-tile:nth-child(2) {
+  margin-bottom: auto;
+}
+
+.slot-column--afc-championship,
+.slot-column--nfc-championship,
+.slot-column--super-bowl {
+  top: 50%;
+  gap: 0.35cqw;
+}
+
+.slot-column--afc-championship {
+  left: 30%;
+  transform: translateY(-50%);
+}
+
+.slot-column--nfc-championship {
+  right: 30%;
+  transform: translateY(-50%);
+}
+
+.slot-column--super-bowl {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.bracket-tile {
+  position: relative;
+  display: flex;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2px solid #f2f2f2;
+  border-radius: 0;
+  padding: 0;
+}
+
+.bracket-tile--empty {
+  border-color: #70747a;
+  background: #1c2229;
+}
+
+.bracket-tile--team {
+  background: var(--team-color);
+  color: #fff;
+}
+
+button.bracket-tile--team {
+  cursor: pointer;
+  transition: filter 150ms ease-out, opacity 150ms ease-out;
+}
+
+button.bracket-tile--team:hover { filter: brightness(1.15); }
+
+.bracket-tile--team img {
+  width: 93%;
+  height: 70%;
+  object-fit: contain;
+}
+
+.tile-seed {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  display: flex;
+  min-width: 33%;
+  height: 22%;
+  align-items: center;
+  padding: 0 8%;
+  background: rgb(0 0 0 / 0.28);
+  color: #fff;
+  font-size: clamp(0.625rem, 1.45cqw, 1rem);
+  font-weight: 800;
+}
+
+.bracket-tile--winner { box-shadow: inset 0 0 0 3px #fff; }
+.bracket-tile--eliminated { opacity: 0.58; }
+.reference-scroll-hint { display: none; }
+
+@media (max-width: 760px) {
+  .reference-bracket,
+  .reference-bracket-scroll,
+  .reference-bracket-field {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .reference-bracket-field { width: 100%; }
+
+  .slot-column--afc-wild-card { left: 4px; }
+  .slot-column--nfc-wild-card { right: 4px; }
+}

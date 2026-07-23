@@ -9,19 +9,17 @@ export default function Home() {
   const { state } = useBracket();
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white py-8">
-      <div className="container mx-auto">
+    <main className="app-shell">
+      <div className={`app-content${state ? " app-content--bracket" : ""}`}>
         {!state ? (
           <SeedEntry />
         ) : (
           <>
             <BracketView />
-            <div className="mt-8">
-              <Controls />
-            </div>
+            <Controls />
           </>
         )}
       </div>
-    </div>
+    </main>
   );
 }

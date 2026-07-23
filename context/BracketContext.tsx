@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { createContext, startTransition, useContext, useState, useEffect, useCallback } from "react";
 import { BracketState, Team } from "@/types";
 import { generateBracket, setGameWinner } from "@/lib/bracket";
 
@@ -28,7 +28,7 @@ export function BracketProvider({ children }: { children: React.ReactNode }) {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        setState(parsed);
+        startTransition(() => setState(parsed));
       }
     } catch (error) {
       console.error("Failed to load bracket from localStorage:", error);
@@ -143,4 +143,3 @@ export function useBracket() {
   }
   return context;
 }
-

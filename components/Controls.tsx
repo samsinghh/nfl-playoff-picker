@@ -5,7 +5,7 @@ import { toPng } from "html-to-image";
 import { useBracket } from "@/context/BracketContext";
 
 export function Controls() {
-  const { state, setState, resetPicks, exportBracket, importBracket } =
+  const { state, setState, resetPicks, randomizePicks, exportBracket, importBracket } =
     useBracket();
   const [showImport, setShowImport] = useState(false);
   const [importText, setImportText] = useState("");
@@ -29,7 +29,7 @@ export function Controls() {
       setShowImport(false);
       setImportText("");
       alert("Bracket imported successfully!");
-    } catch (error) {
+    } catch {
       alert("Failed to import bracket. Please check the JSON format.");
     }
   };
@@ -61,7 +61,7 @@ export function Controls() {
           }),
         ]);
         alert("Bracket image copied to clipboard! You can paste it anywhere.");
-      } catch (err) {
+      } catch {
         // Fallback: download the image
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -84,30 +84,39 @@ export function Controls() {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-6">
-      <div className="flex flex-wrap gap-4 justify-center bg-[#1a1a1a] border border-gray-800 rounded-sm p-4 shadow-2xl">
+    <section className="controls" aria-label="Bracket actions">
+      <div className="controls-bar">
         <button
+          type="button"
           onClick={resetPicks}
-          className="px-4 py-2 bg-[#2a2a2a] text-white border border-gray-700 font-bold uppercase italic text-xs tracking-wider hover:bg-[#333333] transition-colors"
+          className="control-button"
         >
           Reset Picks
         </button>
 
+        <button type="button" onClick={randomizePicks} className="control-button">
+          Quick Pick
+        </button>
+
         <button
+          type="button"
           onClick={handleExport}
-          className="px-4 py-2 bg-[#2a2a2a] text-white border border-gray-700 font-bold uppercase italic text-xs tracking-wider hover:bg-[#333333] transition-colors"
+          className="control-button"
         >
           Export JSON
         </button>
 
         <button
+          type="button"
           onClick={() => setShowImport(!showImport)}
-          className="px-4 py-2 bg-[#2a2a2a] text-white border border-gray-700 font-bold uppercase italic text-xs tracking-wider hover:bg-[#333333] transition-colors"
+          className="control-button"
+          aria-expanded={showImport}
         >
           Import JSON
         </button>
 
         <button
+          type="button"
           onClick={() => {
             const confirmed = confirm(
               "Are you sure you want to reset the entire bracket? This will clear all teams and games."
@@ -116,47 +125,50 @@ export function Controls() {
               setState(null);
             }
           }}
-          className="px-4 py-2 bg-gray-800 text-white font-bold uppercase italic text-xs tracking-wider hover:bg-black transition-colors border border-gray-700"
+          className="control-button control-button--danger"
         >
           Reset Bracket
         </button>
 
         <button
+          type="button"
           onClick={handleShare}
-          className="px-4 py-2 bg-red-600 text-white font-bold uppercase italic text-xs tracking-wider hover:bg-red-700 shadow-lg transition-colors border border-red-700"
+          className="button button--primary controls-share"
         >
           Share Bracket
         </button>
       </div>
 
       {showImport && (
-        <div className="mt-6 p-4 bg-gray-100 rounded-lg">
+        <div className="import-panel">
+          <label htmlFor="bracket-json">Paste bracket JSON</label>
           <textarea
+            id="bracket-json"
             value={importText}
             onChange={(e) => setImportText(e.target.value)}
-            placeholder="Paste JSON bracket data here..."
-            className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md font-mono text-sm text-black placeholder-gray-500"
+            placeholder="Paste exported bracket data here"
           />
-          <div className="mt-3 flex gap-3">
+          <div className="import-actions">
             <button
+              type="button"
               onClick={handleImport}
-              className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+              className="button button--primary"
             >
               Import
             </button>
             <button
+              type="button"
               onClick={() => {
                 setShowImport(false);
                 setImportText("");
               }}
-              className="px-4 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition-colors"
+              className="button button--secondary"
             >
               Cancel
             </button>
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 }
-

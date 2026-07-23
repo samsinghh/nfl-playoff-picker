@@ -1,279 +1,127 @@
 "use client";
 
-import { Game, Round, Conference, Team } from "@/types";
+import type { CSSProperties } from "react";
+import { Game, Team } from "@/types";
 import { useBracket } from "@/context/BracketContext";
 
-const roundLabels: Record<Round, string> = {
-  WC: "Wild Card",
-  DIV: "Divisional",
-  CONF: "Conference Championship",
-  SB: "Super Bowl",
+const TEAM_COLORS: Record<string, string> = {
+  ARI: "#9b2746", ATL: "#050505", BAL: "#2f2080", BUF: "#0b3f99",
+  CAR: "#108dcc", CHI: "#111a2c", CIN: "#050505", CLE: "#321d00",
+  DAL: "#092449", DEN: "#062d4f", DET: "#0d85bd", GB: "#193c32",
+  HOU: "#062b3a", IND: "#123c78", JAX: "#006778", KC: "#ed1238",
+  LV: "#050505", LAC: "#0b87c9", LAR: "#ffd100", MIA: "#058f9c",
+  MIN: "#4f2683", NE: "#0b2d5c", NO: "#211b12", NYG: "#0b3d91",
+  NYJ: "#125740", PHI: "#07545a", PIT: "#111111", SEA: "#0b2b4a",
+  SF: "#aa0000", TB: "#b31b34", TEN: "#4b92db", WAS: "#5a1414",
 };
 
-interface TeamSlotProps {
-  team: Team;
-  isWinner: boolean;
-  onClick: () => void;
+interface BracketSlotProps {
+  team?: Team;
+  game?: Game;
+  onPickWinner?: (gameId: string, winnerId: string) => void;
 }
 
-function TeamSlot({ team, isWinner, onClick }: TeamSlotProps) {
+function BracketSlot({ team, game, onPickWinner }: BracketSlotProps) {
+  if (!team) return <div className="bracket-tile bracket-tile--empty" aria-hidden="true" />;
+
+  const isWinner = game?.winnerId === team.id;
+  const isEliminated = Boolean(game?.winnerId && !isWinner);
+  const style = {
+    "--team-color": TEAM_COLORS[team.abbreviation ?? ""] ?? "#182029",
+  } as CSSProperties;
+  const content = (
+    <>
+      <span className="tile-seed">#{team.seed}</span>
+      <img src={team.logoUrl} alt="" aria-hidden="true" />
+    </>
+  );
+
+  if (!game || !onPickWinner) {
+    return <div className="bracket-tile bracket-tile--team" style={style} aria-label={`${team.name}, seed ${team.seed}`}>{content}</div>;
+  }
+
   return (
     <button
-      onClick={onClick}
-      className={`w-full text-left px-3 py-2 rounded-sm border transition-all flex items-center gap-2 ${
-        isWinner
-          ? "bg-red-600 border-red-700 font-bold text-white shadow-md z-10 scale-[1.02]"
-          : "bg-[#2a2a2a] border-gray-700 hover:bg-[#333333] text-gray-100"
-      }`}
+      type="button"
+      className={`bracket-tile bracket-tile--team${isWinner ? " bracket-tile--winner" : ""}${isEliminated ? " bracket-tile--eliminated" : ""}`}
+      style={style}
+      onClick={() => onPickWinner(game.id, team.id)}
+      aria-pressed={isWinner}
+      aria-label={`Pick ${team.name} to advance`}
     >
-      <div className="w-8 h-8 flex items-center justify-center bg-white rounded-full p-1 shadow-sm shrink-0 border border-gray-100">
-        {team.logoUrl && (
-          <img
-            src={team.logoUrl}
-            alt={team.name}
-            className="w-full h-full object-contain"
-          />
-        )}
-      </div>
-      <div className="flex-1 min-w-0 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className={`text-[10px] uppercase font-black ${isWinner ? "text-red-100" : "text-gray-500"}`}>
-            #{team.seed}
-          </span>
-          <span className="text-xs font-bold truncate tracking-tight uppercase">
-            {team.abbreviation || team.name}
-          </span>
-        </div>
-        {isWinner && (
-          <div className="w-4 h-4 bg-white rounded-full flex items-center justify-center">
-            <span className="text-red-600 text-[10px] font-black">✓</span>
-          </div>
-        )}
-      </div>
+      {content}
     </button>
   );
 }
 
-interface BracketGameProps {
-  game: Game;
-  onPickWinner: (gameId: string, winnerId: string) => void;
-}
+function InteractiveGameSlots({ games, expectedGames, onPickWinner }: { games: Game[]; expectedGames: number; onPickWinner: (gameId: string, winnerId: string) => void }) {
+  const slots = games.flatMap((game) => [
+    <BracketSlot key={`${game.id}-home`} team={game.home} game={game} onPickWinner={onPickWinner} />,
+    <BracketSlot key={`${game.id}-away`} team={game.away} game={game} onPickWinner={onPickWinner} />,
+  ]);
 
-function BracketGame({ game, onPickWinner }: BracketGameProps) {
-  const homeWinner = game.winnerId === game.home.id;
-  const awayWinner = game.winnerId === game.away.id;
+  while (slots.length < expectedGames * 2) {
+    slots.push(<BracketSlot key={`empty-${slots.length}`} />);
+  }
 
-  return (
-    <div className="flex flex-col gap-0 w-full shadow-sm rounded-sm overflow-hidden border border-gray-800 bg-[#1a1a1a]">
-      <TeamSlot
-        team={game.home}
-        isWinner={homeWinner}
-        onClick={() => onPickWinner(game.id, game.home.id)}
-      />
-      <div className="h-[1px] bg-gray-800 w-full"></div>
-      <TeamSlot
-        team={game.away}
-        isWinner={awayWinner}
-        onClick={() => onPickWinner(game.id, game.away.id)}
-      />
-    </div>
-  );
-}
-
-interface ConferenceBracketSideProps {
-  conference: Conference;
-  games: Game[];
-  seed1Team?: Team;
-  onPickWinner: (gameId: string, winnerId: string) => void;
-  isLeftSide: boolean;
-}
-
-function ConferenceBracketSide({
-  conference,
-  games,
-  seed1Team,
-  onPickWinner,
-  isLeftSide,
-}: ConferenceBracketSideProps) {
-  const wcGames = games
-    .filter((g) => g.round === "WC")
-    .sort((a, b) => {
-      const order = [2, 3, 4];
-      return order.indexOf(a.home.seed) - order.indexOf(b.home.seed);
-    });
-  const divGames = games.filter((g) => g.round === "DIV");
-  const confGames = games.filter((g) => g.round === "CONF");
-
-  const confColor = conference === "AFC" ? "text-red-500 border-red-600" : "text-blue-500 border-blue-700";
-  const confBgColor = "bg-[#121212]";
-
-  // Build rounds array
-  // AFC (left): WC -> DIV -> CONF (WC at left edge, CONF near center/Super Bowl)
-  // NFC (right): CONF -> DIV -> WC (CONF near center/Super Bowl, WC at right edge)
-  const rounds = [
-    { label: roundLabels.WC, games: wcGames, seed1: seed1Team },
-    { label: roundLabels.DIV, games: divGames },
-    { label: roundLabels.CONF, games: confGames },
-  ];
-  
-  // For NFC, reverse so CONF is closest to center (left side of NFC bracket)
-  const displayRounds = isLeftSide ? rounds : [...rounds].reverse();
-
-  return (
-    <div className={`${confBgColor} rounded-sm border-t-4 ${conference === 'AFC' ? 'border-red-600' : 'border-blue-700'} shadow-xl w-full overflow-hidden pb-6`}>
-      <div className="bg-[#1a1a1a] py-2 border-b border-gray-800">
-        <h3 className={`text-sm font-black ${conference === 'AFC' ? 'text-red-500' : 'text-blue-500'} text-center italic tracking-wider`}>
-          {conference} PLAYOFFS
-        </h3>
-      </div>
-      
-      <div className="flex flex-row gap-2 lg:gap-4 items-stretch justify-center px-2 mt-4 min-h-[450px]">
-        {displayRounds.map((round, idx) => {
-          const isWC = round.label === roundLabels.WC;
-          const isDIV = round.label === roundLabels.DIV;
-          const isCONF = round.label === roundLabels.CONF;
-          
-          return (
-            <div 
-              key={idx} 
-              className="flex flex-col flex-1 min-w-0"
-            >
-              <div className="w-full border-b border-gray-800 pb-1 mb-4 h-8 flex items-end justify-center">
-                <h4 className={`text-[10px] font-black text-gray-500 text-center uppercase tracking-tighter leading-[1.1] whitespace-pre-line`}>
-                  {round.label === roundLabels.CONF ? 'Conference\nChampionship' : round.label}
-                </h4>
-              </div>
-              {round.games.length === 0 ? (
-                <div className="flex-1 flex items-center justify-center px-2">
-                  <p className="text-[10px] font-bold text-gray-600 uppercase text-center leading-tight italic">
-                    Waiting for {isDIV ? "Wild Card" : isCONF ? "Divisional" : "Seeds"}
-                  </p>
-                </div>
-              ) : (
-                <div className="flex flex-col justify-center items-center w-full gap-4 lg:gap-6 flex-1">
-                  {isWC && round.seed1 && (
-                    <div className="bg-[#2a2a2a] border border-gray-700 rounded-sm p-2 w-full flex items-center gap-2 mb-2">
-                      <div className="w-6 h-6 flex items-center justify-center bg-white rounded-full p-1 border border-gray-100">
-                        {round.seed1.logoUrl && (
-                          <img src={round.seed1.logoUrl} alt={round.seed1.name} className="w-full h-full object-contain" />
-                        )}
-                      </div>
-                      <div className="flex flex-col leading-none">
-                        <span className="text-[9px] font-black text-gray-500">#1 SEED</span>
-                        <span className="text-[10px] font-bold text-gray-100 uppercase">{round.seed1.abbreviation || round.seed1.name}</span>
-                      </div>
-                      <div className="ml-auto">
-                        <span className="text-[9px] font-black bg-[#333333] px-1 rounded-sm text-gray-400 uppercase">BYE</span>
-                      </div>
-                    </div>
-                  )}
-                  {round.games.map((game) => (
-                    <BracketGame key={game.id} game={game} onPickWinner={onPickWinner} />
-                  ))}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
+  return <>{slots}</>;
 }
 
 export function BracketView() {
   const { state, pickWinner } = useBracket();
 
-  if (!state) {
-    return null;
-  }
+  if (!state) return null;
 
-  const afcGames = state.games.filter((g) => g.conference === "AFC");
-  const nfcGames = state.games.filter((g) => g.conference === "NFC");
-  const sbGames = state.games.filter((g) => g.round === "SB");
-  
-  const afcSeed1 = state.teams.find((t) => t.conference === "AFC" && t.seed === 1);
-  const nfcSeed1 = state.teams.find((t) => t.conference === "NFC" && t.seed === 1);
-  
-  // Get Super Bowl winner if there is one
-  const sbWinner = sbGames.length > 0 && sbGames[0].winnerId
-    ? state.teams.find((t) => t.id === sbGames[0].winnerId)
-    : null;
+  const gamesFor = (conference: "AFC" | "NFC", round: Game["round"]) =>
+    state.games.filter((game) => game.conference === conference && game.round === round);
+  const afcSeed1 = state.teams.find((team) => team.conference === "AFC" && team.seed === 1);
+  const nfcSeed1 = state.teams.find((team) => team.conference === "NFC" && team.seed === 1);
+  const afcDivisional = gamesFor("AFC", "DIV");
+  const nfcDivisional = gamesFor("NFC", "DIV");
+  const superBowl = state.games.filter((game) => game.round === "SB");
 
   return (
-    <div id="bracket-container" className="w-full bg-[#0a0a0a] border border-gray-800">
-      <div className="w-full mx-auto p-4 lg:p-6 max-w-[1920px]">
-        <div className="flex flex-col xl:flex-row gap-4 xl:gap-6 items-start justify-center">
-          {/* AFC Bracket */}
-          <div className="w-full xl:flex-1 xl:max-w-[500px]">
-            <ConferenceBracketSide
-              conference="AFC"
-              games={afcGames}
-              seed1Team={afcSeed1}
-              onPickWinner={pickWinner}
-              isLeftSide={true}
-            />
+    <section id="bracket-container" className="reference-bracket" aria-label="NFL playoff bracket">
+      <div className="reference-bracket-scroll" tabIndex={0}>
+        <div className="reference-bracket-field">
+          <div className="slot-column slot-column--afc-wild-card">
+            <InteractiveGameSlots games={gamesFor("AFC", "WC")} expectedGames={3} onPickWinner={pickWinner} />
           </div>
 
-          {/* Super Bowl - Center */}
-          {sbGames.length > 0 ? (
-            <div className="w-full xl:w-[260px] xl:flex-shrink-0 flex items-center justify-center xl:self-center">
-              <div className="bg-[#1a1a1a] border-t-4 border-white shadow-2xl w-full max-w-[280px] overflow-hidden">
-                <div className="bg-white py-2">
-                  <h3 className="text-sm font-black text-center text-gray-900 italic uppercase tracking-wider">
-                    {roundLabels.SB}
-                  </h3>
-                </div>
-                <div className="p-4">
-                  {sbGames.map((game) => (
-                    <BracketGame key={game.id} game={game} onPickWinner={pickWinner} />
-                  ))}
-                  {sbWinner && (
-                    <div className="mt-6 p-4 bg-[#2a2a2a] rounded-sm relative overflow-hidden group transition-all duration-500 border border-gray-700">
-                      <div className="relative z-10 flex flex-col items-center gap-3 text-center">
-                        <span className="text-[10px] font-black text-red-500 uppercase tracking-[0.2em] italic">WORLD CHAMPION</span>
-                        <div className="flex flex-col items-center gap-2 w-full">
-                          <div className="w-16 h-16 bg-white rounded-full p-2 shadow-2xl border-2 border-red-600 scale-110">
-                            {sbWinner.logoUrl && (
-                              <img
-                                src={sbWinner.logoUrl}
-                                alt={sbWinner.name}
-                                className="w-full h-full object-contain"
-                              />
-                            )}
-                          </div>
-                          <span className="w-full text-center text-xl lg:text-2xl font-black text-white uppercase italic tracking-tighter mt-2">
-                            {sbWinner.name}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="w-full xl:w-[260px] xl:flex-shrink-0 hidden xl:block self-center pt-24">
-              <div className="flex flex-col items-center text-gray-700">
-                <div className="w-12 h-12 border-2 border-gray-800 rounded-full flex items-center justify-center opacity-50 mb-2">
-                  <span className="text-xl font-black italic">SB</span>
-                </div>
-                <span className="text-[10px] font-black uppercase italic opacity-50">Road to Super Bowl</span>
-              </div>
-            </div>
-          )}
+          <div className="slot-column slot-column--afc-divisional">
+            {afcDivisional.length ? (
+              <InteractiveGameSlots games={afcDivisional} expectedGames={2} onPickWinner={pickWinner} />
+            ) : (
+              <><BracketSlot team={afcSeed1} /><BracketSlot /><BracketSlot /><BracketSlot /></>
+            )}
+          </div>
 
-          {/* NFC Bracket */}
-          <div className="w-full xl:flex-1 xl:max-w-[500px]">
-            <ConferenceBracketSide
-              conference="NFC"
-              games={nfcGames}
-              seed1Team={nfcSeed1}
-              onPickWinner={pickWinner}
-              isLeftSide={false}
-            />
+          <div className="slot-column slot-column--afc-championship">
+            <InteractiveGameSlots games={gamesFor("AFC", "CONF")} expectedGames={1} onPickWinner={pickWinner} />
+          </div>
+
+          <div className="slot-column slot-column--super-bowl">
+            <InteractiveGameSlots games={superBowl} expectedGames={1} onPickWinner={pickWinner} />
+          </div>
+
+          <div className="slot-column slot-column--nfc-championship">
+            <InteractiveGameSlots games={gamesFor("NFC", "CONF")} expectedGames={1} onPickWinner={pickWinner} />
+          </div>
+
+          <div className="slot-column slot-column--nfc-divisional">
+            {nfcDivisional.length ? (
+              <InteractiveGameSlots games={nfcDivisional} expectedGames={2} onPickWinner={pickWinner} />
+            ) : (
+              <><BracketSlot team={nfcSeed1} /><BracketSlot /><BracketSlot /><BracketSlot /></>
+            )}
+          </div>
+
+          <div className="slot-column slot-column--nfc-wild-card">
+            <InteractiveGameSlots games={gamesFor("NFC", "WC")} expectedGames={3} onPickWinner={pickWinner} />
           </div>
         </div>
       </div>
-    </div>
+      <p className="reference-scroll-hint">Swipe horizontally to view the full bracket</p>
+    </section>
   );
 }
